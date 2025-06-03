@@ -1,5 +1,7 @@
 # school-test-back
 
+фронт - https://github.com/ivan-filchakov/school-test-front
+
 Локальний запуск
 ```
 # frontend :5173
