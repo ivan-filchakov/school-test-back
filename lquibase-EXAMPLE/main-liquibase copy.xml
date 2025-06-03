@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- розгортання БД через liquibase НЕ реалізоване. Цей файл як приклад можливої реалізації -->
+<databaseChangeLog
+	xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog 
+						http://www.liquibase.org/xml/ns/dbchangelog-ext">
+
+<!-- enum -->
+	<changeSet id="create enum school_type" author="registry owner">
+		<ext:createType name="school_type">
+			<ext:asEnum>
+				<ext:label translation="Гімназія">GYMNASIUM</ext:label>
+				<ext:label translation="Ліцей">LYCEUM</ext:label>
+				<ext:label translation="ЗЗСО">SCHOOL</ext:label>
+			</ext:asEnum>
+		</ext:createType>
+	</changeSet>
+
+<!-- довідник теріторіальних одиниць (у т.ч. і областей) -->
+	<changeSet id="create table katottg" author="registry owner">
+		<createTable tableName="katottg" ext:historyFlag="true" remarks="katottg">
+			<column name="katottg_id"  type="UUID" defaultValueComputed="uuid_generate_v4()">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_katottg_id"/>
+			</column>
+			<column name="code" type="TEXT" remarks="Код">
+				<constraints nullable="true"/>
+			</column>
+			<column name="name" type="TEXT" remarks="Назва">
+				<constraints nullable="true"/>
+			</column>
+			<column name="category" type="TEXT" remarks="Категорія">
+				<constraints nullable="true"/>
+			</column>
+			<column name="level" type="INT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="katottg_parent_id" type="UUID">
+				<constraints nullable="true"
+								foreignKeyName="fk_katottg_parent"
+								referencedTableName="katottg"
+								referencedColumnNames="katottg_id"/>
+			</column>
+		</createTable>
+		<addUniqueConstraint tableName="katottg" columnNames="code"/>
+	</changeSet>
+	
+<!-- сутність школи із зв'язками -->
+	<changeSet id="create table school" author="registry owner">
+		<createTable tableName="school" ext:historyFlag="true">
+			<column name="id" type="UUID" defaultValueComputed="uuid_generate_v4()">
+				<constraints nullable="false" primaryKey="true" primaryKeyName="pk_school_id"/>
+			</column>
+			<column name="edrpou" type="TEXT">
+				<constraints nullable="false" unique="true"/>
+			</column>
+			<column name="name" type="TEXT">
+				<constraints nullable="false"/>
+			</column>
+			<column name="is_active" type="BOOLEAN" defaultValue="true">
+				<constraints nullable="false"/>
+			</column>
+			<!-- зв'язок з енамом -->
+			<column name="school_type" type="school_type">
+				<constraints nullable="false" />
+			</column>
+			<!-- зв'язок з табличкою-довідником теріториальних одиниць -->
+			<column name="katottg_id" type="UUID">
+				<constraints 
+					nullable="false"
+					foreignKeyName="fk_school_katottg_id"
+					referencedTableName="katottg"
+					referencedColumnNames="katottg_id"
+				/>
+			</column>
+		</createTable>
+	</changeSet>
+	
+<!-- заливка теріторіальних одиниць першого рівня (області) -->
+	<property  name="dataLoadPath"  value="/tmp/data-load/"/>
+	<changeSet author="registry owner" id="load data to dictionaries">
+		<sql dbms="postgresql" endDelimiter=";" splitStatements="true" stripComments="true">
+			CALL p_load_table_from_csv('katottg', '${dataLoadPath}katottg-level1.csv', array['code','name', 'category'],
+			array['code','name', 'category', 'level::''1''']);
+		</sql>
+	</changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,12 @@
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\controller\HelloController.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\controller\MongoPingController.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\controller\RegionController.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\controller\SchoolController.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\exception\GlobalExceptionHandler.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\loader\RegionDataLoader.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\model\Region.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\model\School.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\model\SchoolType.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\repository\RegionRepository.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\repository\SchoolRepository.java
+C:\dev\brdo\school-test-back\src\main\java\com\example\school_test\SchoolTestApplication.java
