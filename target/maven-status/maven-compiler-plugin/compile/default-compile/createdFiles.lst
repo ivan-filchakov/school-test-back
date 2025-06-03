@@ -1,0 +1,14 @@
+com\example\school_test\controller\HelloController.class
+com\example\school_test\controller\EnumController.class
+com\example\school_test\exception\GlobalExceptionHandler.class
+com\example\school_test\model\SchoolType.class
+com\example\school_test\model\Region.class
+com\example\school_test\model\School.class
+com\example\school_test\SchoolTestApplication.class
+com\example\school_test\loader\RegionDataLoader.class
+com\example\school_test\controller\RegionController.class
+com\example\school_test\controller\SchoolController.class
+com\example\school_test\repository\RegionRepository.class
+com\example\school_test\repository\SchoolRepository.class
+com\example\school_test\service\SchoolService.class
+com\example\school_test\controller\MongoPingController.class
